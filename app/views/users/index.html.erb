@@ -1,0 +1,51 @@
+<div class="main_container">
+   <div class="information">
+     <h2>スケジュール一覧</h2>
+
+     <% if flash[:notice_success] %>
+       <p class="notice notice_success"><%= flash[:notice_success] %></p>
+     <% end %>
+     
+     <% if flash[:notice_failure] %>
+       <p class="notice notice_failure"><%= flash[:notice_failure] %></p>
+     <% end %>
+     
+     <% if flash[:notice_delete] %>
+       <p class="notice notice_delete"><%= flash[:notice_delete] %></p>
+     <% end %>
+   </div>
+
+   <table>
+     <thead>
+       <tr>
+         <th>ID</th>
+         <th>タイトル</th>
+         <th>開始日</th>
+         <th>終了日</th>
+         <th>終日</th>
+         <th>スケジュール更新日時</th>
+         <th>確認</th>
+         <th>編集</th>
+         <th>削除</th>
+       </tr>
+     </thead>
+     <tbody>
+       <% @users.each do |user| %>
+         <tr>
+           <td><%= user.id %></td>
+           <td><%= user.title %></td>
+           <td><%= user.start_at.strftime("%Y年%m月%d日") %></td>
+           <td><%= user.end_at.strftime("%Y年%m月%d日") %></td>
+           <td><% if user.is_all_day == 1 %><strong>〇</strong><% end %></td>
+           <td><%= user.updated_at.to_s(:datetime_jp) %></td>
+           <td><%= link_to "確認", user %></td>
+           <td><%= link_to "編集", [:edit, user] %></td>
+           <td><%= link_to "削除", user, data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %></td>
+         </tr>
+       <% end %>
+     </tbody>
+   </table>
+
+   <p><%= link_to "スケジュール新規登録", :new_user %></p>
+
+ </div> 
